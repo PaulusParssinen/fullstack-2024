@@ -19,7 +19,10 @@ const successStyle = {
 
 const Notification = ({ value }) =>
   value && (
-    <div style={value.isError ? errorStyle : successStyle}>
+    <div
+      style={value.isError ? errorStyle : successStyle}
+      data-testid="notification"
+    >
       <b>{value.message}</b>
     </div>
   );

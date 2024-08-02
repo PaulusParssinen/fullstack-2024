@@ -66,6 +66,26 @@ const App = () => {
     setUser(null);
   };
 
+  const addBlog = async (blog) => {
+    blogFormRef.current.toggleVisibility();
+
+    try {
+      const newBlog = await blogService.create(blog);
+
+      setBlogs(blogs.concat(newBlog));
+
+      setNotification({
+        message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
+        isError: false,
+      });
+    } catch (error) {
+      setNotification({
+        message: `Failed to add blog. Error: ${error.message}`,
+        isError: true,
+      });
+    }
+  };
+
   const updateLikes = async (id) => {
     const blog = blogs.find((blog) => blog.id === id);
 
@@ -114,29 +134,6 @@ const App = () => {
           isError: true,
         });
       }
-    }
-  };
-
-  const addBlog = async (blog) => {
-    blogFormRef.current.toggleVisibility();
-
-    try {
-      const newBlog = await blogService.create({
-        ...blog,
-        username: user.username,
-      });
-
-      setBlogs(blogs.concat(newBlog));
-
-      setNotification({
-        message: `a new blog ${newBlog.title} by ${newBlog.author} added`,
-        isError: false,
-      });
-    } catch (error) {
-      setNotification({
-        message: `Failed to add blog. Error: ${error.message}`,
-        isError: true,
-      });
     }
   };
 

@@ -23,7 +23,12 @@ blogsRouter.post("/", async (request, response) => {
   });
   const newBlog = await blog.save();
 
-  response.status(201).json(newBlog);
+  const populatedBlog = await newBlog.populate("user", {
+    username: 1,
+    name: 1,
+  });
+
+  response.status(201).json(populatedBlog);
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
@@ -32,7 +37,8 @@ blogsRouter.delete("/:id", async (request, response) => {
   }
 
   const blog = await Blog.findById(request.params.id);
-  if (blog.user != request.user.id) {
+
+  if (blog.user.toString() != request.user.id) {
     return response.status(401).json({ error: "unauthorized user" });
   }
 

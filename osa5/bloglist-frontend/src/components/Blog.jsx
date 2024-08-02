@@ -12,11 +12,14 @@ const Blog = ({ blog, username, onLike, onDelete }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div style={style}>
+    <div style={style} data-testid="blog-entry">
       <span>
         {blog.title} {blog.author}
       </span>
-      <button onClick={() => setVisible(!visible)}>
+      <button
+        onClick={() => setVisible(!visible)}
+        data-testid="toggle-visibility-button"
+      >
         {visible ? "hide" : "view"}
       </button>
       {visible && (
